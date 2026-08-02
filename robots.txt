@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://korifcan.github.io/sky-cotl-height-tool/sitemap.xml
