@@ -1,4 +1,4 @@
-let currentLang = 'zh-Hant';
+let currentLang = 'id';
 let history = [];
 let uploadedImageUrl = null;
 let lastResult = null;
