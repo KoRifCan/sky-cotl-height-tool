@@ -17,6 +17,11 @@ const versionData = [
                 "QRコードのスキャンに失敗する問題を再度修正",
                 "数値異常に関するエラーメッセージを追加",
                 "計算ヒントメッセージの位置を移動"
+            ],
+            "id": [
+                "Memperbaiki kembali masalah pemindaian QR Code",
+                "Menambahkan pesan error untuk nilai yang abnormal",
+                "Memindahkan posisi pesan petunjuk kalkulasi"
             ]
         }
     },
@@ -35,6 +40,10 @@ const versionData = [
             "ja": [
                 "ゲームバージョン0.31.5の形式に対応",
                 "ウェブインターフェースをリニューアル"
+            ],
+            "id": [
+                "Kompatibel dengan format versi game 0.31.5",
+                "Merombak ulang antarmuka web"
             ]
         }
     },
@@ -48,6 +57,9 @@ const versionData = [
             ],
             "ja": [
                 "QRコードのスキャンに失敗する問題を修正"
+            ],
+            "id": [
+                "Memperbaiki masalah pemindaian QR Code yang gagal"
             ]
         }
     },
@@ -69,6 +81,11 @@ const versionData = [
                 "古いFAQセクションを削除",
                 "測定に関する注意事項と範囲説明を追加",
                 "非標準フォーマットの数値における計算エラーを修正"
+            ],
+            "id": [
+                "Menghapus bagian FAQ yang sudah usang",
+                "Menambahkan pemberitahuan pengukuran dan penjelasan rentang",
+                "Memperbaiki error perhitungan untuk format tinggi badan non-standar"
             ]
         }
     },
@@ -82,6 +99,9 @@ const versionData = [
             ],
             "ja": [
                 "身長値が指数表記の場合に計算できない問題を修正"
+            ],
+            "id": [
+                "Memperbaiki kegagalan perhitungan saat nilai tinggi badan dalam notasi ilmiah"
             ]
         }
     },
@@ -103,6 +123,11 @@ const versionData = [
                 "ツール正式公開",
                 "新機能：画像アップロード機能、日本語翻訳、リサイズドリンクシミュレーター",
                 "負のスケール値認識とシミュレーター表示の問題を修正",
+            ],
+            "id": [
+                "Rilis awal",
+                "Fitur baru: Unggah gambar langsung, terjemahan Bahasa Indonesia, Simulator Ramuan Resize",
+                "Memperbaiki masalah pengenalan nilai skala negatif dan tampilan simulator",
             ]
         }
     }

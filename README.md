@@ -33,3 +33,15 @@ All calculations are done in your browser. No data is uploaded, so you can use i
 
     **Method 2: Paste URL**
     * Use a scanner to read the screenshot. Copy the URL starting with `https://sky.thatg.co/o=` and paste it into the tool's input box.
+
+## Cara Penggunaan (Bahasa Indonesia)
+
+1.  Di dalam game, buka **Pengaturan > Akun > Info Akun > QR Code Outfit**.
+2.  **Ambil tangkapan layar** QR Code tersebut. (Catatan: BUKAN QR code undangan teman)
+3.  Pilih salah satu metode berikut:
+
+    **Metode 1: Unggah Tangkapan Layar**
+    * Klik "Pilih Gambar" atau seret & lepas tangkapan layarmu ke area unggah.
+
+    **Metode 2: Tempel URL**
+    * Gunakan pemindai untuk membaca tangkapan layar. Salin URL yang diawali `https://sky.thatg.co/o=` dan tempel ke kotak input alat ini.
