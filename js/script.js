@@ -48,6 +48,9 @@ function renderChangelog() {
 function setLanguage(lang) {
     currentLang = lang;
     document.documentElement.lang = lang;
+    if (translations[lang]['title'] !== undefined) {
+        document.title = translations[lang]['title'];
+    }
     document.querySelectorAll('[data-lang-key]').forEach(el => {
         const key = el.getAttribute('data-lang-key');
         if (translations[lang][key] !== undefined) {
