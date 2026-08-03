@@ -298,30 +298,42 @@
     transform: scale(1.1);
 }
 
-.delete-history-item {
+button.delete-history-item {
     position: absolute;
     top: 12px;
     right: 12px;
-    width: 24px;
-    height: 24px;
-    background: rgba(0,0,0,0.05);
+    width: 30px;
+    height: 30px;
+    background: var(--option-inactive-bg);
+    border: 1px solid var(--option-border);
     border-radius: 50%;
     color: var(--label-color);
-    font-size: 1.1em;
-    line-height: 1;
+    font-size: 0;
+    line-height: 0;
     padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     box-shadow: none;
     margin: 0;
+    transition: all 0.2s;
     -webkit-tap-highlight-color: transparent;
 }
 
-.delete-history-item:hover {
+button.delete-history-item svg {
+    width: 15px;
+    height: 15px;
+}
+
+button.delete-history-item:hover {
     background: var(--error-color);
     color: white;
-    transform: none;
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.4);
+}
+
+button.delete-history-item:active {
+    transform: scale(0.92);
 }
 
 #status {

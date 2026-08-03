@@ -259,17 +259,28 @@ summary {
     border-radius: 50%;
     width: 44px;
     height: 44px;
-    font-size: 1.4em;
+    font-size: 0;
+    line-height: 0;
     cursor: pointer;
     z-index: 1001;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.2s ease;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.lightbox-nav svg {
+    width: 22px;
+    height: 22px;
 }
 
 .lightbox-nav:hover {
     background: rgba(255, 255, 255, 0.35);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.lightbox-nav:active {
+    transform: translateY(-50%) scale(0.92);
 }
 
 .modal {
@@ -315,27 +326,38 @@ summary {
 }
 
 .modal-close {
-    width: 32px;
-    height: 32px;
+    width: 34px;
+    height: 34px;
     margin: 0;
     padding: 0;
     border: none;
     background: var(--option-inactive-bg);
     color: var(--font-color);
     border-radius: 50%;
-    font-size: 1.3em;
-    line-height: 1;
+    font-size: 0;
+    line-height: 0;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     box-shadow: none;
     flex-shrink: 0;
+    transition: all 0.2s;
+}
+
+.modal-close svg {
+    width: 16px;
+    height: 16px;
 }
 
 .modal-close:hover {
     background: var(--error-color);
     color: #fff;
+    transform: scale(1.1);
+}
+
+.modal-close:active {
+    transform: scale(0.92);
 }
 
 .full-info-images {
@@ -441,15 +463,15 @@ summary {
 
 .toast-close {
     flex-shrink: 0;
-    width: 24px;
-    height: 24px;
+    width: 26px;
+    height: 26px;
     margin: 0;
     padding: 0;
     border: none;
     background: none;
     color: rgba(255, 255, 255, 0.55);
-    font-size: 1.25em;
-    line-height: 1;
+    font-size: 0;
+    line-height: 0;
     cursor: pointer;
     box-shadow: none;
     display: flex;
@@ -459,10 +481,19 @@ summary {
     transition: all 0.2s;
 }
 
+.toast-close svg {
+    width: 14px;
+    height: 14px;
+}
+
 .toast-close:hover {
     background: rgba(255, 255, 255, 0.15);
     color: #fff;
-    transform: none;
+    transform: scale(1.1);
+}
+
+.toast-close:active {
+    transform: scale(0.9);
 }
 
 .toast-progress {
@@ -754,7 +785,12 @@ h1 {
     .lightbox-nav {
         width: 36px;
         height: 36px;
-        font-size: 1.1em;
+        font-size: 0;
+    }
+
+    .lightbox-nav svg {
+        width: 18px;
+        height: 18px;
     }
 
     #lightbox-prev {

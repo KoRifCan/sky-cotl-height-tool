@@ -39,7 +39,7 @@ function showToast(message, type, duration) {
     toast.innerHTML = `
         <span class="toast-icon">${TOAST_ICONS[safeType]}</span>
         <div class="toast-msg">${message}</div>
-        <button class="toast-close" aria-label="Close">×</button>
+        <button class="toast-close" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg></button>
         <span class="toast-progress" style="animation-duration: ${duration / 1000}s"></span>
     `;
     container.appendChild(toast);
@@ -209,7 +209,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const date = new Date(item.timestamp).toLocaleString();
             const note = item.note || '';
             li.innerHTML = `
-                <button class="delete-history-item" data-index="${index}" title="${t('confirm_delete_item')}">×</button>
+                <button class="delete-history-item" data-index="${index}" title="${t('confirm_delete_item')}" aria-label="${t('confirm_delete_item')}">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
+                </button>
                 <div class="history-item-main">
                     <span class="history-value">${t('history_current_label')}: ${currentHeightDisplay}</span>
                     <span class="timestamp">${date}</span>
