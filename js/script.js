@@ -24,6 +24,57 @@ const backgroundGradients = [
     { id: 'night', colors: ['#2c3e50', '#1a293f'] },
 ];
 
+const TOAST_ICONS = {
+    success: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg>',
+    error: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>',
+    info: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>'
+};
+
+function showToast(message, type, duration) {
+    const container = document.getElementById('toast-container');
+    if (!container) return;
+    const safeType = ['success', 'error', 'info'].includes(type) ? type : 'info';
+    const toast = document.createElement('div');
+    toast.className = 'toast toast-' + safeType;
+    toast.innerHTML = `
+        <span class="toast-icon">${TOAST_ICONS[safeType]}</span>
+        <div class="toast-msg">${message}</div>
+        <button class="toast-close" aria-label="Close">×</button>
+        <span class="toast-progress" style="animation-duration: ${duration / 1000}s"></span>
+    `;
+    container.appendChild(toast);
+
+    let timer = setTimeout(close, duration);
+
+    function close() {
+        if (toast.dataset.closing) return;
+        toast.dataset.closing = '1';
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 350);
+    }
+
+    toast.querySelector('.toast-close').addEventListener('click', (e) => {
+        e.stopPropagation();
+        clearTimeout(timer);
+        close();
+    });
+    toast.addEventListener('click', (e) => {
+        if (e.target.closest('.toast-close')) return;
+        clearTimeout(timer);
+        close();
+    });
+
+    requestAnimationFrame(() => toast.classList.add('show'));
+}
+
+function clearStatus() {
+    const statusEl = document.getElementById('status');
+    if (statusEl) {
+        statusEl.innerHTML = '';
+        statusEl.className = '';
+    }
+}
+
 function renderChangelog() {
     const listContainer = document.getElementById('changelog-list');
     if (!listContainer || typeof versionData === 'undefined') return;
@@ -182,8 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
         history[index].note = trimmed;
         saveHistory();
         renderHistory();
-        dom.statusEl.innerHTML = t('history_note_saved');
-        dom.statusEl.className = 'status-success';
+        showToast(t('history_note_saved'), 'success', 2000);
     }
 
     function applyTheme(theme) {
@@ -313,7 +363,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 history.splice(index, 1);
                 saveHistory();
                 renderHistory();
-                dom.statusEl.innerHTML = t('item_deleted');
+                showToast(t('item_deleted'), 'info', 2000);
                 if (history.length === 0) {
                     dom.historyContainer.style.display = 'none';
                 }
@@ -431,6 +481,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!rawData) {
             dom.statusEl.innerHTML = t('status_error_empty'); 
             dom.statusEl.className = 'status-error';
+            showToast(t('status_error_empty'), 'error', 4000);
             return;
         }
 
@@ -448,6 +499,7 @@ document.addEventListener('DOMContentLoaded', () => {
             dom.statusEl.innerHTML = t(results.error); 
             dom.statusEl.className = 'status-error';
             dom.simulatorContainer.style.display = 'none';
+            showToast(t(results.error), 'error', 6000);
         } else {
             lastResult = results;
             animateValue(dom.resCurrent, parseFloat(dom.resCurrent.textContent) || 0, results.current, 500);
@@ -464,6 +516,7 @@ document.addEventListener('DOMContentLoaded', () => {
             dom.statusEl.innerHTML = t('status_success'); 
             dom.statusEl.className = 'status-success';
             dom.resultActions.style.display = 'block';
+            showToast(t('status_success'), 'success', 2500);
 
             lastCalculatedScale = results.scale;
             dom.simulatorContainer.style.display = 'block';
@@ -483,20 +536,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     dom.copyBtn.addEventListener('click', () => {
         if (!lastResult) {
-            dom.statusEl.innerHTML = t('status_copy_empty');
-            dom.statusEl.className = 'status-error';
+            showToast(t('status_copy_empty'), 'error', 4000);
             return;
         }
         const copyText = `${t('res_current')} ${lastResult.current.toFixed(4)}\n${t('res_tallest')} ${lastResult.tallest.toFixed(4)}\n${t('res_shortest')} ${lastResult.shortest.toFixed(4)}`;
         navigator.clipboard.writeText(copyText).then(() => {
-            dom.statusEl.innerHTML = t('status_copy_success'); 
-            dom.statusEl.className = 'status-success';
+            showToast(t('status_copy_success'), 'success', 2000);
             const originalText = t('copy_btn');
             dom.copyBtn.textContent = t('copy_btn_copied');
             setTimeout(() => { dom.copyBtn.textContent = originalText; }, 2000);
         }).catch(err => {
-            dom.statusEl.innerHTML = t('status_copy_fail'); 
-            dom.statusEl.className = 'status-error';
+            showToast(t('status_copy_fail'), 'error', 4000);
         });
     });
 
@@ -508,8 +558,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function openFullInfo() {
         if (!lastDecodedFull) {
-            dom.statusEl.innerHTML = t('status_error_empty');
-            dom.statusEl.className = 'status-error';
+            showToast(t('status_error_empty'), 'error', 4000);
             return;
         }
         fullInfoImages.innerHTML = '';
@@ -663,8 +712,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function handleQrUpload(file) {
         if (!file || !file.type.startsWith('image/')) {
-            dom.statusEl.innerHTML = t('status_error_general');
-            dom.statusEl.className = 'status-error';
+            showToast(t('status_error_general'), 'error', 5000);
             return;
         }
 
@@ -672,8 +720,7 @@ document.addEventListener('DOMContentLoaded', () => {
         dom.statusEl.className = '';
 
         if (typeof jsQR === 'undefined') {
-            dom.statusEl.innerHTML = "錯誤: QR 掃描庫載入失敗，請重新整理頁面";
-            dom.statusEl.className = 'status-error';
+            showToast(t('status_qr_lib_fail'), 'error', 6000);
             return;
         }
 
@@ -714,16 +761,17 @@ document.addEventListener('DOMContentLoaded', () => {
             if (code && code.data) {
                 dom.statusEl.innerHTML = t('status_qr_success');
                 dom.statusEl.className = 'status-success';
+                showToast(t('status_qr_success'), 'success', 2500);
                 dom.b64Input.value = code.data;
                 setTimeout(() => { dom.calculateBtn.click(); }, 100);
             } else {
                 dom.statusEl.innerHTML = t('status_qr_fail');
                 dom.statusEl.className = 'status-error';
+                showToast(t('status_qr_fail'), 'error', 5000);
             }
 
         } catch (err) {
-            dom.statusEl.innerHTML = `掃描失敗: ${err.message || t('status_error_general')}`;
-            dom.statusEl.className = 'status-error';
+            showToast(t('status_qr_scan_error').replace('{msg}', err.message || t('status_error_general')), 'error', 5000);
         }
     }
 
