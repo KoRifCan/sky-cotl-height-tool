@@ -1,8 +1,8 @@
-# 🌤️ Sky: CotL Height Tool
+# 🌤️ Sky: CotL Height Tool (光遇身高查看工具 · Sky cotl height tool)
 
 <div align="center">
 
-**Alat ukur tinggi badan untuk *Sky: Children of the Light***
+**Alat ukur tinggi badan untuk *Sky: Children of the Light*** — Sky CotL Height Tool (光遇身高查看工具)
 
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Language](https://img.shields.io/badge/lang-中文%20%7C%20English%20%7C%20日本語%20%7C%20Bahasa%20Indonesia-2CA89A)
@@ -13,6 +13,7 @@
 
 </div>
 
+> **Kata kunci pencarian:** Sky cotl height tool · 光遇身高查看工具 · Sky height checker · 光遇 身高 · Sky Children of the Light height calculator · sky-cotl
 ---
 
 ## ✨ Fitur Utama
