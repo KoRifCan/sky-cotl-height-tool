@@ -657,16 +657,11 @@ button {
     box-shadow: 0 4px 15px rgba(230, 162, 60, 0.3);
     letter-spacing: 0.5px;
     -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
 }
 
 button:hover, button:active {
     transform: translateY(-1px);
     box-shadow: 0 6px 20px rgba(230, 162, 60, 0.5);
-}
-
-button:active {
-    transform: translateY(0) scale(0.98);
 }
 
 button.secondary-btn {
