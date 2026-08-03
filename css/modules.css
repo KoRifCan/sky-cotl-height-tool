@@ -190,7 +190,7 @@
 #history-list li {
     position: relative;
     padding: 15px;
-    padding-right: 40px;
+    padding-right: 56px;
     border-radius: 16px;
     background: var(--details-bg);
     margin-bottom: 10px;
@@ -260,8 +260,8 @@
 
 .history-note-save,
 .history-note-clear {
-    width: 34px;
-    height: 34px;
+    width: 40px;
+    height: 40px;
     flex-shrink: 0;
     padding: 0;
     margin: 0;
@@ -282,8 +282,8 @@
 
 .history-note-save svg,
 .history-note-clear svg {
-    width: 16px;
-    height: 16px;
+    width: 17px;
+    height: 17px;
 }
 
 .history-note-save:hover {
@@ -301,9 +301,9 @@
 button.delete-history-item {
     position: absolute;
     top: 12px;
-    right: 12px;
-    width: 30px;
-    height: 30px;
+    right: 10px;
+    width: 36px;
+    height: 36px;
     background: var(--option-inactive-bg);
     border: 1px solid var(--option-border);
     border-radius: 50%;
@@ -321,8 +321,8 @@ button.delete-history-item {
 }
 
 button.delete-history-item svg {
-    width: 15px;
-    height: 15px;
+    width: 16px;
+    height: 16px;
 }
 
 button.delete-history-item:hover {

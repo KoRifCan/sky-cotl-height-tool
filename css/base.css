@@ -326,8 +326,9 @@ summary {
 }
 
 .modal-close {
-    width: 34px;
-    height: 34px;
+    position: relative;
+    width: 40px;
+    height: 40px;
     margin: 0;
     padding: 0;
     border: none;
@@ -346,8 +347,8 @@ summary {
 }
 
 .modal-close svg {
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
 }
 
 .modal-close:hover {
@@ -512,8 +513,9 @@ summary {
 
 .toast-close {
     flex-shrink: 0;
-    width: 26px;
-    height: 26px;
+    position: relative;
+    width: 34px;
+    height: 34px;
     margin: 0;
     padding: 0;
     border: none;
@@ -530,9 +532,16 @@ summary {
     transition: all 0.2s;
 }
 
+.toast-close::before {
+    content: '';
+    position: absolute;
+    inset: -10px;
+    border-radius: 50%;
+}
+
 .toast-close svg {
-    width: 14px;
-    height: 14px;
+    width: 16px;
+    height: 16px;
 }
 
 .toast-close:hover {
@@ -679,7 +688,7 @@ button.secondary-btn:hover, button.secondary-btn:active {
     background: none;
     border: 1px solid var(--border-color);
     color: var(--label-color);
-    padding: 6px 12px;
+    padding: 10px 16px;
     font-size: 0.85em;
     margin-top: 0;
     width: auto;
@@ -832,14 +841,14 @@ h1 {
     }
 
     .lightbox-nav {
-        width: 36px;
-        height: 36px;
+        width: 44px;
+        height: 44px;
         font-size: 0;
     }
 
     .lightbox-nav svg {
-        width: 18px;
-        height: 18px;
+        width: 20px;
+        height: 20px;
     }
 
     #lightbox-prev {
