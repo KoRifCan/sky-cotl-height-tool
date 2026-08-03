@@ -146,22 +146,44 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function escapeHtml(str) {
+        return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
     function renderHistory() {
         dom.historyList.innerHTML = '';
         history.forEach((item, index) => {
             const currentHeightDisplay = item.current ? item.current.toFixed(4) : 'N/A';
             const li = document.createElement('li');
             const date = new Date(item.timestamp).toLocaleString();
+            const note = item.note || '';
             li.innerHTML = `
                 <button class="delete-history-item" data-index="${index}" title="${t('confirm_delete_item')}">×</button>
                 <div class="history-item-main">
                     <span class="history-value">${t('history_current_label')}: ${currentHeightDisplay}</span>
                     <span class="timestamp">${date}</span>
                 </div>
-                <button class="history-note" data-index="${index}">${item.note || t('history_note_placeholder')}</button>
+                <div class="history-note-row">
+                    <input type="text" class="history-note-input" data-index="${index}" value="${escapeHtml(note)}" placeholder="${t('history_note_input_placeholder')}" maxlength="200" autocomplete="off">
+                    <button class="history-note-save" data-index="${index}" aria-label="${t('history_note_save')}" title="${t('history_note_save')}">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                    </button>
+                    ${note ? `<button class="history-note-clear" data-index="${index}" title="${t('history_note_delete')}">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+                    </button>` : ''}
+                </div>
             `;
             dom.historyList.appendChild(li);
         });
+    }
+
+    function saveHistoryNote(index, value) {
+        const trimmed = value.trim();
+        history[index].note = trimmed;
+        saveHistory();
+        renderHistory();
+        dom.statusEl.innerHTML = t('history_note_saved');
+        dom.statusEl.className = 'status-success';
     }
 
     function applyTheme(theme) {
@@ -276,15 +298,14 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     dom.historyList.addEventListener('click', (e) => {
-        if (e.target && e.target.classList.contains('history-note')) {
-            const index = e.target.dataset.index;
-            const currentNote = history[index].note || "";
-            const newNote = prompt(t('history_note_placeholder'), currentNote);
-            if (newNote !== null) {
-                history[index].note = newNote.trim();
-                saveHistory();
-                renderHistory();
-            }
+        if (e.target.closest('.history-note-save')) {
+            const btn = e.target.closest('.history-note-save');
+            const input = dom.historyList.querySelector(`.history-note-input[data-index="${btn.dataset.index}"]`);
+            if (input) saveHistoryNote(btn.dataset.index, input.value);
+        }
+        if (e.target.closest('.history-note-clear')) {
+            const btn = e.target.closest('.history-note-clear');
+            saveHistoryNote(btn.dataset.index, '');
         }
         if (e.target && e.target.classList.contains('delete-history-item')) {
             const index = parseInt(e.target.dataset.index, 10);
@@ -296,6 +317,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (history.length === 0) {
                     dom.historyContainer.style.display = 'none';
                 }
+            }
+        }
+    });
+
+    dom.historyList.addEventListener('keydown', (e) => {
+        if (e.target && e.target.classList.contains('history-note-input')) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                saveHistoryNote(e.target.dataset.index, e.target.value);
+            } else if (e.key === 'Escape') {
+                e.preventDefault();
+                renderHistory();
             }
         }
     });

@@ -224,30 +224,78 @@
     font-size: 1.1em;
 }
 
-.history-note {
-    background: transparent !important;
-    box-shadow: none !important;
-    border: none !important;
-    padding: 5px 0;
-    margin: 0;
-    width: 100%;
-    text-align: left;
-    font-size: 0.9em;
-    color: var(--font-color);
-    opacity: 0.7;
-    cursor: pointer;
-    font-weight: normal;
-    display: block;
-    border-radius: 0;
-    transition: opacity 0.2s;
+.history-note-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
 }
 
-.history-note:hover {
-    transform: none;
-    opacity: 1;
-    color: var(--accent-color);
-    text-decoration: underline;
-    text-underline-offset: 4px;
+.history-note-input {
+    flex: 1;
+    min-width: 0;
+    padding: 8px 12px;
+    border: 1px solid var(--option-border);
+    border-radius: 10px;
+    background: var(--card-bg);
+    color: var(--font-color);
+    font-family: inherit;
+    font-size: 0.9em;
+    box-sizing: border-box;
+    resize: none;
+    transition: all 0.2s;
+    height: auto;
+}
+
+.history-note-input::placeholder {
+    color: var(--label-color);
+    opacity: 0.6;
+}
+
+.history-note-input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px var(--accent-bg);
+}
+
+.history-note-save,
+.history-note-clear {
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    padding: 0;
+    margin: 0;
+    border: none;
+    border-radius: 50%;
+    font-size: 0;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: none;
+    background: var(--option-inactive-bg);
+    color: var(--label-color);
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.history-note-save svg,
+.history-note-clear svg {
+    width: 16px;
+    height: 16px;
+}
+
+.history-note-save:hover {
+    background: var(--success-color);
+    color: #fff;
+    transform: scale(1.1);
+}
+
+.history-note-clear:hover {
+    background: var(--error-color);
+    color: #fff;
+    transform: scale(1.1);
 }
 
 .delete-history-item {
