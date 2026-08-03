@@ -532,3 +532,65 @@ input:checked + .slider:before {
     opacity: 0.9;
     list-style-type: circle;
 }
+@media (hover: none) {
+    button:hover,
+    .toast-close:hover,
+    .modal-close:hover,
+    button.delete-history-item:hover,
+    .lightbox-nav:hover,
+    .history-note-save:hover,
+    .history-note-clear:hover,
+    .icon-button:hover,
+    button.secondary-btn:hover {
+        transform: none;
+    }
+
+    .toast-close:hover {
+        background: none;
+        color: rgba(255, 255, 255, 0.55);
+    }
+
+    .tutorial-grid img:hover {
+        transform: none;
+        box-shadow: none;
+    }
+
+    .qr-upload-area:hover {
+        border-color: var(--border-color);
+        background: none;
+    }
+
+    button.delete-history-item:hover {
+        background: var(--option-inactive-bg);
+        color: var(--label-color);
+        box-shadow: none;
+    }
+
+    .modal-close:hover {
+        background: var(--option-inactive-bg);
+        color: var(--font-color);
+    }
+
+    .history-note-save:hover,
+    .history-note-clear:hover {
+        background: var(--option-inactive-bg);
+        color: var(--label-color);
+    }
+
+    .lightbox-nav:hover {
+        background: rgba(255, 255, 255, 0.15);
+    }
+}
+
+.lang-option,
+.selectable-option,
+.icon-button,
+.summary,
+summary,
+input[type="text"],
+input[type="file"],
+textarea,
+label {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
