@@ -75,6 +75,42 @@ function clearStatus() {
     }
 }
 
+function showConfirm(message) {
+    return new Promise((resolve) => {
+        const modal = document.getElementById('confirm-modal');
+        const msgEl = document.getElementById('confirm-message');
+        const okBtn = document.getElementById('confirm-ok');
+        const cancelBtn = document.getElementById('confirm-cancel');
+        if (!modal || !msgEl || !okBtn || !cancelBtn) { resolve(false); return; }
+
+        msgEl.innerHTML = message;
+        okBtn.textContent = (translations[currentLang] && translations[currentLang]['confirm_ok']) || 'Confirm';
+        cancelBtn.textContent = (translations[currentLang] && translations[currentLang]['confirm_cancel']) || 'Cancel';
+
+        const cleanup = () => {
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+            okBtn.removeEventListener('click', onOk);
+            cancelBtn.removeEventListener('click', onCancel);
+            modal.removeEventListener('click', onBackdrop);
+            document.removeEventListener('keydown', onKey);
+        };
+        const onOk = () => { cleanup(); resolve(true); };
+        const onCancel = () => { cleanup(); resolve(false); };
+        const onBackdrop = (e) => { if (e.target === modal) onCancel(); };
+        const onKey = (e) => { if (e.key === 'Escape') onCancel(); };
+
+        okBtn.addEventListener('click', onOk);
+        cancelBtn.addEventListener('click', onCancel);
+        modal.addEventListener('click', onBackdrop);
+        document.addEventListener('keydown', onKey);
+
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        cancelBtn.focus();
+    });
+}
+
 function renderChangelog() {
     const listContainer = document.getElementById('changelog-list');
     if (!listContainer || typeof versionData === 'undefined') return;
@@ -349,7 +385,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    dom.historyList.addEventListener('click', (e) => {
+    dom.historyList.addEventListener('click', async (e) => {
         if (e.target.closest('.history-note-save')) {
             const btn = e.target.closest('.history-note-save');
             const input = dom.historyList.querySelector(`.history-note-input[data-index="${btn.dataset.index}"]`);
@@ -361,7 +397,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (e.target && e.target.classList.contains('delete-history-item')) {
             const index = parseInt(e.target.dataset.index, 10);
-            if (confirm(t('confirm_delete_item'))) {
+            const confirmed = await showConfirm(t('confirm_delete_item'));
+            if (confirmed) {
                 history.splice(index, 1);
                 saveHistory();
                 renderHistory();
@@ -385,8 +422,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    dom.clearHistoryBtn.addEventListener('click', () => {
-        if (confirm(t('confirm_clear_history'))) {
+    dom.clearHistoryBtn.addEventListener('click', async () => {
+        const confirmed = await showConfirm(t('confirm_clear_history'));
+        if (confirmed) {
             history = [];
             saveHistory();
             dom.historyContainer.style.display = 'none';
@@ -626,7 +664,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 drawCanvasContent(ctx, downloadCanvas);
                 triggerDownload();
             };
-            bgImage.onerror = () => { alert('背景圖片載入失敗!'); };
+            bgImage.onerror = () => { showToast(t('bg_load_fail'), 'error', 4000); };
         } else if (activeBg && activeBg.dataset.type === 'gradient') {
             const colors = activeBg.dataset.colors.split(',');
             const gradient = ctx.createLinearGradient(0, 0, downloadCanvas.width, downloadCanvas.height);
@@ -646,7 +684,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     dom.drinkPotionBtn.addEventListener('click', () => {
         if (lastCalculatedScale === null) {
-            alert(t('sim_error_no_calc'));
+            showToast(t('sim_error_no_calc'), 'error', 4000);
             return;
         }
         dom.potionExtremeNotice.textContent = '';
