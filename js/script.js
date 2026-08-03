@@ -686,17 +686,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    setLanguage(currentLang);
+
     const savedTheme = localStorage.getItem('theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     applyTheme(savedTheme || (prefersDark ? 'dark' : 'light'));
 
-    initLightbox();
-
-    populateBgSelectors();
-    loadHistory();
-    setLanguage(currentLang);
+    try { initLightbox(); } catch (err) { console.error(err); }
+    try { populateBgSelectors(); } catch (err) { console.error(err); }
+    try { loadHistory(); } catch (err) { console.error(err); }
     renderChangelog();
-    updatePreview();
+    try { updatePreview(); } catch (err) { console.error(err); }
 });
 
 function initLightbox() {
