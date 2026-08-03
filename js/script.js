@@ -48,12 +48,12 @@ function renderChangelog() {
 function setLanguage(lang) {
     currentLang = lang;
     document.documentElement.lang = lang;
-    if (translations[lang]['title'] !== undefined) {
+    if (translations[lang] && translations[lang]['title'] !== undefined) {
         document.title = translations[lang]['title'];
     }
     document.querySelectorAll('[data-lang-key]').forEach(el => {
         const key = el.getAttribute('data-lang-key');
-        if (translations[lang][key] !== undefined) {
+        if (translations[lang] && translations[lang][key] !== undefined) {
             const translation = translations[lang][key];
             if (el.tagName === 'TEXTAREA' || el.tagName === 'INPUT') {
                 el.placeholder = translation;
@@ -73,7 +73,7 @@ function setLanguage(lang) {
 }
 
 function t(key) {
-    return translations[currentLang][key] || key;
+    return (translations[currentLang] && translations[currentLang][key]) || key;
 }
 
 function animateValue(element, start, end, duration) {
