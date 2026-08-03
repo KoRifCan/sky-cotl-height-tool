@@ -395,8 +395,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const btn = e.target.closest('.history-note-clear');
             saveHistoryNote(btn.dataset.index, '');
         }
-        if (e.target && e.target.classList.contains('delete-history-item')) {
-            const index = parseInt(e.target.dataset.index, 10);
+        if (e.target.closest('.delete-history-item')) {
+            const index = parseInt(e.target.closest('.delete-history-item').dataset.index, 10);
             const confirmed = await showConfirm(t('confirm_delete_item'));
             if (confirmed) {
                 history.splice(index, 1);
