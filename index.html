@@ -83,6 +83,32 @@
             </div>
         </details>
 
+        <details class="tutorial-gallery">
+            <summary data-lang-key="tutorial_title">...</summary>
+            <div class="tutorial-grid">
+                <figure>
+                    <img src="images/tutorial-1.jpg" alt="Tutorial 1" loading="lazy">
+                    <figcaption>1</figcaption>
+                </figure>
+                <figure>
+                    <img src="images/tutorial-2.jpg" alt="Tutorial 2" loading="lazy">
+                    <figcaption>2</figcaption>
+                </figure>
+                <figure>
+                    <img src="images/tutorial-3.jpg" alt="Tutorial 3" loading="lazy">
+                    <figcaption>3</figcaption>
+                </figure>
+                <figure>
+                    <img src="images/tutorial-4.jpg" alt="Tutorial 4" loading="lazy">
+                    <figcaption>4</figcaption>
+                </figure>
+                <figure>
+                    <img src="images/tutorial-5.png" alt="Tutorial 5" loading="lazy">
+                    <figcaption>5</figcaption>
+                </figure>
+            </div>
+        </details>
+
         <div class="measurement-notice">
             <h4 data-lang-key="measurement_notice_title">...</h4>
             <p data-lang-key="measurement_notice_body">...</p>
@@ -237,6 +263,12 @@
             <p data-lang-key="disclaimer_privacy">...</p>
         </div>
     </footer>
+
+    <div id="lightbox" class="lightbox" style="display: none;">
+        <button id="lightbox-prev" class="lightbox-nav" aria-label="Previous">&#10094;</button>
+        <img id="lightbox-img" src="" alt="">
+        <button id="lightbox-next" class="lightbox-nav" aria-label="Next">&#10095;</button>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
     

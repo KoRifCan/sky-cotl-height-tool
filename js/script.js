@@ -689,10 +689,57 @@ document.addEventListener('DOMContentLoaded', () => {
     const savedTheme = localStorage.getItem('theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     applyTheme(savedTheme || (prefersDark ? 'dark' : 'light'));
-    
+
+    initLightbox();
+
     populateBgSelectors();
     loadHistory();
     setLanguage(currentLang);
     renderChangelog();
     updatePreview();
 });
+
+function initLightbox() {
+    const images = Array.from(document.querySelectorAll('.tutorial-grid img'));
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const prevBtn = document.getElementById('lightbox-prev');
+    const nextBtn = document.getElementById('lightbox-next');
+    if (!lightbox || images.length === 0) return;
+
+    let currentIndex = 0;
+
+    function show(index) {
+        currentIndex = (index + images.length) % images.length;
+        lightboxImg.src = images[currentIndex].src;
+        lightboxImg.alt = images[currentIndex].alt;
+        lightbox.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function close() {
+        lightbox.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+
+    images.forEach((img, i) => {
+        img.addEventListener('click', () => show(i));
+    });
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox || e.target === lightboxImg) close();
+    });
+    prevBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        show(currentIndex - 1);
+    });
+    nextBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        show(currentIndex + 1);
+    });
+    document.addEventListener('keydown', (e) => {
+        if (lightbox.style.display === 'none') return;
+        if (e.key === 'Escape') close();
+        else if (e.key === 'ArrowLeft') show(currentIndex - 1);
+        else if (e.key === 'ArrowRight') show(currentIndex + 1);
+    });
+}
