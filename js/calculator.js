@@ -24,6 +24,51 @@ function calculateStats(height, scale) {
     };
 }
 
+function decodeFullData(rawData) {
+    let b64Str = rawData;
+
+    const startMarker = "ImJvZHki";
+    const startIndex = rawData.indexOf(startMarker);
+    if (startIndex !== -1) {
+        b64Str = rawData.substring(startIndex);
+    } else {
+        const oIndex = b64Str.indexOf("o=");
+        if (oIndex !== -1) b64Str = b64Str.substring(oIndex + 2);
+    }
+
+    b64Str = b64Str.replace(/-/g, '+').replace(/_/g, '/');
+    const padding = b64Str.length % 4;
+    if (padding) b64Str += '='.repeat(4 - padding);
+
+    let decodedText;
+    try {
+        decodedText = atob(b64Str);
+    } catch (e) {
+        return { error: 'status_error_general' };
+    }
+
+    let json = null;
+    let pretty = decodedText;
+    try {
+        json = JSON.parse(decodedText);
+        pretty = JSON.stringify(json, null, 2);
+    } catch (e) {
+        try {
+            const inner = decodedText.replace(/^"/, '').replace(/"$/, '');
+            const unescaped = inner.replace(/\\"/g, '"').replace(/\\\\/g, '\\');
+            json = JSON.parse(unescaped);
+            pretty = JSON.stringify(json, null, 2);
+        } catch (e2) {
+            pretty = decodedText;
+        }
+    }
+
+    const imgRegex = /https?:\/\/[^\s"'\\]+?\.(?:png|jpe?g|webp|gif|bmp)(?:\?[^\s"'\\]*)?/gi;
+    const images = [...new Set((decodedText.match(imgRegex) || []))];
+
+    return { raw: decodedText, json: json, pretty: pretty, images: images };
+}
+
 function decodeAndCalculate(rawData) {
     const debugLog = (msg) => { console.log(`[SkyTool Debug] ${msg}`); };
 

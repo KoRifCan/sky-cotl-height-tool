@@ -2,6 +2,7 @@ let currentLang = 'id';
 let history = [];
 let uploadedImageUrl = null;
 let lastResult = null;
+let lastDecodedFull = null;
 let lastCalculatedScale = null;
 let potionCounter = 0;
 
@@ -402,6 +403,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const results = decodeAndCalculate(rawData);
 
+        lastDecodedFull = null;
+        try {
+            const full = decodeFullData(rawData);
+            if (!full.error) lastDecodedFull = full;
+        } catch (err) {
+            console.error(err);
+        }
+
         if (results.error) {
             dom.statusEl.innerHTML = t(results.error); 
             dom.statusEl.className = 'status-error';
@@ -458,8 +467,53 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    dom.imageBtn.addEventListener('click', () => {
-        if (!lastResult) return;
+    const fullInfoModal = document.getElementById('full-info-modal');
+    const fullInfoText = document.getElementById('full-info-text');
+    const fullInfoImages = document.getElementById('full-info-images');
+    const fullInfoClose = document.getElementById('full-info-close');
+    const fullInfoBtn = document.getElementById('full-info-btn');
+
+    function openFullInfo() {
+        if (!lastDecodedFull) {
+            dom.statusEl.innerHTML = t('status_error_empty');
+            dom.statusEl.className = 'status-error';
+            return;
+        }
+        fullInfoImages.innerHTML = '';
+        if (lastDecodedFull.images.length > 0) {
+            lastDecodedFull.images.forEach(url => {
+                const img = document.createElement('img');
+                img.src = url;
+                img.alt = 'QR image';
+                img.loading = 'lazy';
+                img.addEventListener('click', () => {
+                    if (typeof openLightbox !== 'undefined' && openLightbox) openLightbox(url);
+                });
+                fullInfoImages.appendChild(img);
+            });
+        } else {
+            fullInfoImages.style.display = 'none';
+        }
+        fullInfoText.textContent = lastDecodedFull.pretty;
+        fullInfoModal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeFullInfo() {
+        fullInfoModal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+
+    fullInfoBtn.addEventListener('click', openFullInfo);
+    fullInfoClose.addEventListener('click', closeFullInfo);
+    fullInfoModal.addEventListener('click', (e) => {
+        if (e.target === fullInfoModal) closeFullInfo();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (fullInfoModal.style.display !== 'none' && e.key === 'Escape') closeFullInfo();
+    });
+
+    dom.imageBtn.addEventListener('click', () => {        if (!lastResult) return;
 
         const downloadCanvas = document.createElement('canvas');
         downloadCanvas.width = 500; 
@@ -716,6 +770,13 @@ function initLightbox() {
         lightbox.style.display = 'flex';
         document.body.style.overflow = 'hidden';
     }
+
+    window.openLightbox = function (src) {
+        lightboxImg.src = src;
+        lightboxImg.alt = '';
+        lightbox.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    };
 
     function close() {
         lightbox.style.display = 'none';

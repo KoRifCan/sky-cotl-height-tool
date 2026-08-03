@@ -154,6 +154,7 @@
 
             <div class="result-actions" id="result-actions" style="display: none;">
                 <button id="copy-btn" data-lang-key="copy_btn">...</button>
+                <button id="full-info-btn" class="secondary-btn" data-lang-key="full_info_btn">...</button>
                 
                 <details class="customization-details">
                     <summary data-lang-key="customize_image">...</summary>
@@ -268,6 +269,17 @@
         <button id="lightbox-prev" class="lightbox-nav" aria-label="Previous">&#10094;</button>
         <img id="lightbox-img" src="" alt="">
         <button id="lightbox-next" class="lightbox-nav" aria-label="Next">&#10095;</button>
+    </div>
+
+    <div id="full-info-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 data-lang-key="full_info_title">...</h2>
+                <button id="full-info-close" class="modal-close" aria-label="Close">&times;</button>
+            </div>
+            <div id="full-info-images" class="full-info-images"></div>
+            <pre id="full-info-text"></pre>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
